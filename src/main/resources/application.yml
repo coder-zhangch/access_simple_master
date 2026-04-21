@@ -8,8 +8,8 @@ spring:
     serialization:
       write-dates-as-timestamps: false
   profiles:
-    active: dev
-#    active: prod
+#    active: dev
+    active: prod
 
 mybatis:
   mapper-locations: "classpath:mapper/*.xml"
