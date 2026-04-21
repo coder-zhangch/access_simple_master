@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.WagonDataMapper">
+
+    <resultMap id="wagonMap" type="com.example.entity.WagonDataVO">
+        <id property="id" column="id"/>
+        <result property="matchid" column="matchid"/>
+        <result property="carno" column="carno"/>
+        <result property="materialname" column="materialname"/>
+        <result property="materialspec" column="materialspec"/>
+        <result property="sourcename" column="sourcename"/>
+        <result property="targetname" column="targetname"/>
+        <result property="gross" column="gross"/>
+        <result property="grosstime" column="grosstime"/>
+        <result property="tare" column="tare"/>
+        <result property="taretime" column="taretime"/>
+        <result property="suttle" column="suttle"/>
+        <result property="ship" column="ship"/>
+        <result property="createdate" column="createdate"/>
+        <result property="grossoperator" column="grossoperator"/>
+        <result property="tareoperator" column="tareoperator"/>
+        <result property="grossweigh" column="grossweigh"/>
+        <result property="tareweigh" column="tareweigh"/>
+        <result property="clientId" column="clientId"/>
+        <result property="listPic" column="listPic"/>
+<!--        <result property="listVideo" column="listVideo"/>-->
+        <result property="isSend" column="isSend"/>
+    </resultMap>
+
+    <select id="getById" resultMap="wagonMap">
+        select * from wagondata where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.entity.WagonDataVO">
+        insert into wagondata(
+            id, matchid, carno, materialname, materialspec, sourcename, targetname, gross,
+            grosstime, tare, taretime, suttle, ship, createdate, grossoperator,
+            tareoperator, grossweigh, tareweigh, clientId, listPic, isSend
+        )
+        values(
+            #{data.id}, #{data.matchid}, #{data.carno}, #{data.materialname}, #{data.materialspec}, #{data.sourcename}, #{data.targetname}, #{data.gross},
+            #{data.grosstime}, #{data.tare}, #{data.taretime}, #{data.suttle}, #{data.ship}, #{data.createdate}, #{data.grossoperator},
+            #{data.tareoperator}, #{data.grossweigh}, #{data.tareweigh}, #{data.clientId}, #{data.listPic}, #{data.isSend}
+        )
+    </insert>
+
+    <select id="getUnpushed" resultMap="wagonMap">
+        SELECT * FROM wagondata where isSend = 0
+    </select>
+
+    <update id="updateBySuccessful" parameterType="java.util.List">
+        update wagondata set isSend = 1 where id in
+        <foreach collection="idList" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+</mapper>

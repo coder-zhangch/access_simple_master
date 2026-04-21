@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.ListVideoDataMapper">
+
+    <resultMap id="videoMap" type="com.example.entity.ListVideoDataVO">
+        <id property="id" column="id"/>
+        <result property="matchid" column="matchid"/>
+        <result property="carno" column="carno"/>
+        <result property="listVideo" column="listVideo"/>
+    </resultMap>
+
+    <select id="getById" resultMap="videoMap">
+        select * from listvideodata where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.entity.ListVideoDataVO">
+        insert into listvideodata(
+            id, matchid, carno, listVideo
+        )
+        values(
+            #{data.id}, #{data.matchid}, #{data.carno}, #{data.listVideo}
+        )
+    </insert>
+
+    <select id="getByIdList" parameterType="java.util.List" resultMap="videoMap">
+        SELECT * FROM listvideodata where id in
+        <foreach collection="idList" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

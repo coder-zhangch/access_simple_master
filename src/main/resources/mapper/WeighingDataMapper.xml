@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.WeighingDataMapper">
+
+    <resultMap id="weighingMap" type="com.example.entity.WeighingData">
+        <id property="id" column="id"/>
+        <result property="clientId" column="clientId"/>
+        <result property="ccNo" column="CCNo"/>
+        <result property="cydw" column="cydw"/>
+        <result property="dwmc" column="dwmc"/>
+        <result property="ysgj" column="ysgj"/>
+        <result property="materialName" column="materialName"/>
+        <result property="operator" column="operator"/>
+        <result property="scaleNo" column="scaleNo"/>
+        <result property="suttle" column="suttle"/>
+        <result property="tare" column="tare"/>
+        <result property="gross" column="gross"/>
+        <result property="totalWeight" column="totalWeight"/>
+        <result property="weightDate" column="weightDate"/>
+        <result property="weightTime" column="weightTime"/>
+        <result property="loader" column="loader"/>
+        <result property="ziDong" column="ziDong"/>
+        <result property="orderNo" column="orderNo"/>
+        <result property="lastWeigh" column="lastWeigh"/>
+        <result property="dataFrom" column="dataFrom"/>
+        <result property="danPrice" column="danPrice"/>
+        <result property="amount" column="amount"/>
+        <result property="banCi" column="banCi"/>
+        <result property="isSend" column="isSend"/>
+    </resultMap>
+
+    <select id="getById" resultMap="weighingMap">
+        SELECT * FROM weighingdata where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.entity.WeighingData">
+        insert into weighingdata(
+            id, clientId, ccNo, cydw, dwmc, ysgj, materialName,
+            operator, scaleNo, suttle, tare, gross, totalWeight,
+            weightDate, weightTime, loader, ziDong, orderNo,
+            lastWeigh, dataFrom, danPrice, amount, banCi
+        )
+        values(
+            #{data.id}, #{data.clientId}, #{data.ccNo}, #{data.cydw}, #{data.dwmc}, #{data.ysgj}, #{data.materialName},
+            #{data.operator}, #{data.scaleNo}, #{data.suttle}, #{data.tare}, #{data.gross}, #{data.totalWeight},
+            #{data.weightDate}, #{data.weightTime}, #{data.loader}, #{data.ziDong}, #{data.orderNo},
+            #{data.lastWeigh}, #{data.dataFrom}, #{data.danPrice}, #{data.amount}, #{data.banCi}
+        )
+    </insert>
+
+    <select id="getUnpushed" resultMap="weighingMap">
+        SELECT * FROM weighingdata where isSend = 0 and lastWeigh = 0
+    </select>
+
+    <select id="queryByOrderNo" resultMap="weighingMap">
+        SELECT * FROM weighingdata where orderNo in
+        <foreach collection="list" item="orderNo" open="(" separator="," close=")">
+            #{orderNo}
+        </foreach>
+    </select>
+
+    <update id="updateBySuccessful" parameterType="java.util.List">
+        update weighingdata set isSend = 1 where id in
+        <foreach collection="idList" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="batchUpdate" parameterType="java.util.List">
+        update weighingdata set isSend = 1 where id in
+        <foreach collection="idList" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="setIsSend">
+        update weighingdata set isSend = #{isSend} where id = #{id}
+    </update>
+
+    <select id="queryByLastId" resultMap="weighingMap">
+        SELECT * FROM weighingdata where id > #{id}
+    </select>
+
+    <select id="getLastData" resultMap="weighingMap">
+        SELECT TOP 1 * FROM weighingdata order by id desc
+    </select>
+
+    <select id="queryByIdList" resultMap="weighingMap">
+        SELECT * FROM weighingdata where ID in
+        <foreach collection="idList" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

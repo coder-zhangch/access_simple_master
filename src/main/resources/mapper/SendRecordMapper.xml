@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.SendRecordMapper">
+
+    <resultMap id="sendMap" type="com.example.entity.SendRecord">
+        <id property="id" column="id"/>
+        <result property="sendTime" column="sendTime"/>
+        <result property="sendData" column="sendData"/>
+        <result property="sendResult" column="sendResult"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.example.entity.SendRecord">
+        insert into sendrecord( sendTime, sendData, sendResult )
+        values( #{record.sendTime}, #{record.sendData}, #{record.sendResult} )
+    </insert>
+</mapper>
