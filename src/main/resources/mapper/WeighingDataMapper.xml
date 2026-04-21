@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.WeighingDataMapper">
+
+    <resultMap id="weighingMap" type="com.example.entity.WeighingData">
+        <id property="id" column="id"/>
+        <result property="clientId" column="clientId"/>
+        <result property="CCNo" column="CCNo"/>
+        <result property="cydw" column="cydw"/>
+        <result property="dwmc" column="dwmc"/>
+        <result property="ysgj" column="ysgj"/>
+        <result property="materialName" column="materialName"/>
+        <result property="operator" column="operator"/>
+        <result property="scaleNo" column="scaleNo"/>
+        <result property="suttle" column="suttle"/>
+        <result property="tare" column="tare"/>
+        <result property="gross" column="gross"/>
+        <result property="totalWeight" column="totalWeight"/>
+        <result property="weightDate" column="weightDate"/>
+        <result property="weightTime" column="weightTime"/>
+        <result property="loader" column="loader"/>
+        <result property="ziDong" column="ziDong"/>
+        <result property="orderNo" column="orderNo"/>
+        <result property="lastWeigh" column="lastWeigh"/>
+        <result property="dataFrom" column="dataFrom"/>
+        <result property="danPrice" column="danPrice"/>
+        <result property="amount" column="amount"/>
+        <result property="banCi" column="banCi"/>
+        <result property="synchroFlag" column="synchroFlag"/>
+        <result property="doushu" column="doushu"/>
+        <result property="shFlag" column="shFlag"/>
+        <result property="remf0" column="remf0"/>
+        <result property="remf1" column="remf1"/>
+        <result property="remf2" column="remf2"/>
+        <result property="remf3" column="remf3"/>
+        <result property="remf4" column="remf4"/>
+        <result property="remf5" column="remf5"/>
+        <result property="remf6" column="remf6"/>
+        <result property="remf7" column="remf7"/>
+        <result property="remf8" column="remf8"/>
+        <result property="remf9" column="remf9"/>
+        <result property="remn0" column="remn0"/>
+        <result property="remn1" column="remn1"/>
+        <result property="remn2" column="remn2"/>
+        <result property="remn3" column="remn3"/>
+        <result property="remn4" column="remn4"/>
+        <result property="rems0" column="rems0"/>
+        <result property="rems1" column="rems1"/>
+        <result property="rems2" column="rems2"/>
+        <result property="rems3" column="rems3"/>
+        <result property="rems4" column="rems4"/>
+        <result property="rems5" column="rems5"/>
+        <result property="rems6" column="rems6"/>
+        <result property="rems7" column="rems7"/>
+        <result property="rems8" column="rems8"/>
+        <result property="rems9" column="rems9"/>
+        <result property="isSend" column="isSend"/>
+    </resultMap>
+
+    <select id="getById" resultMap="weighingMap">
+        SELECT TOP 1 * FROM WeighingData where lastWeigh = 1 and EntryID = #{EntryID}
+    </select>
+
+<!--    <update id="batchUpdate" parameterType="java.util.List">-->
+<!--        update WeighingData set isSend = 1 where id in-->
+<!--        <foreach collection="idList" item="id" open="(" separator="," close=")">-->
+<!--            #{id}-->
+<!--        </foreach>-->
+<!--    </update>-->
+
+    <select id="queryByLastId" resultMap="weighingMap">
+        SELECT * FROM WeighingData where lastWeigh = 1 and EntryID > #{EntryID}
+    </select>
+
+    <select id="getLastData" resultMap="weighingMap">
+        SELECT TOP 1 * FROM WeighingData where lastWeigh = 1 order by EntryID desc
+    </select>
+
+    <select id="queryByIdList" resultMap="weighingMap">
+        SELECT * FROM WeighingData where lastWeigh = 1 and EntryID in
+        <foreach collection="idList" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="queryLastFive" resultMap="weighingMap">
+        SELECT TOP 5 * FROM WeighingData where lastWeigh = 1
+        <if test="lastId != null and lastId != ''">
+            and EntryID &lt;= #{lastId}
+        </if>
+        order by EntryID desc
+    </select>
+</mapper>

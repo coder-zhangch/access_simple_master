@@ -1,0 +1,13 @@
+
+spring:
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://192.168.6.8:1433;databaseName=SFDW
+    username: zl
+    password: 654321
+  redis:
+    database: 1
+    timeout: 60s
+    host: 127.0.0.1
+    port: 16379
+    password: 123456

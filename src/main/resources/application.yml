@@ -1,0 +1,27 @@
+server:
+  port: 8888
+
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss:SSS
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: false
+  profiles:
+#    active: dev
+    active: prod
+
+mybatis:
+  mapper-locations: "classpath:mapper/*.xml"
+
+publish:
+  mqtt:
+    host: tcp://117.14.55.74:18830
+#    username: admin
+#    password: public
+    clean-session: false
+    client-id: mqttx_40cba7e6
+    default-topic: th/st/bjk/ceshi001
+    timeout: 1000
+    keepalive: 10
+    connection-timeout: 3000

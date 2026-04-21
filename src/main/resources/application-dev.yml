@@ -1,0 +1,13 @@
+
+spring:
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://localhost:1433;databaseName=test
+    username: sa
+    password: Pwd123456
+  redis:
+    database: 0
+    timeout: 60s
+    host: 127.0.0.1
+    port: 6379
+    password: Pwd123456

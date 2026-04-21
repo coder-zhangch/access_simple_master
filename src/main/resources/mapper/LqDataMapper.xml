@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.LqDataMapper">
+
+    <resultMap id="lqDataMap" type="com.example.entity.LqData">
+        <id property="id" column="id"/>
+        <result property="jcsj" column="jcsj"/>
+        <result property="cfbh" column="cfbh"/>
+        <result property="cfmc" column="cfmc"/>
+        <result property="cfww" column="cfww"/>
+        <result property="cfws" column="cfws"/>
+        <result property="cfnw" column="cfnw"/>
+        <result property="cfns" column="cfns"/>
+        <result property="lspjwd" column="lspjwd"/>
+        <result property="lszdw" column="lszdw"/>
+        <result property="lszgw" column="lszgw"/>
+        <result property="lswdzjh" column="lswdzjh"/>
+        <result property="lssdzjh" column="lssdzjh"/>
+    </resultMap>
+
+    <select id="getLastBy" resultMap="lqDataMap">
+        SELECT TOP 1 * FROM LqData where cfbh = #{cfbh} order by jcsj desc
+    </select>
+
+    <select id="getLastByDate" resultMap="lqDataMap">
+        SELECT TOP 1 * FROM LqData
+        where cfbh = #{cfbh}
+          and jcsj &gt;= #{start}
+          and jcsj &lt; #{end}
+        order by jcsj desc
+    </select>
+
+    <select id="getLastByCfbh" resultMap="lqDataMap">
+        SELECT TOP 1 * FROM LqData where cfbh = #{cfbh} order by id desc
+    </select>
+
+<!--    <select id="queryByLastId" resultMap="lqDataMap">-->
+<!--        SELECT * FROM WeighingData where lastWeigh = 1 and EntryID > #{EntryID}-->
+<!--    </select>-->
+
+<!--    <select id="getLastData" resultMap="lqDataMap">-->
+<!--        SELECT TOP 1 * FROM WeighingData where lastWeigh = 1 order by EntryID desc-->
+<!--    </select>-->
+
+<!--    <select id="queryByIdList" resultMap="weighingMap">-->
+<!--        SELECT * FROM WeighingData where lastWeigh = 1 and EntryID in-->
+<!--        <foreach collection="idList" item="id" open="(" separator="," close=")">-->
+<!--            #{id}-->
+<!--        </foreach>-->
+<!--    </select>-->
+</mapper>
