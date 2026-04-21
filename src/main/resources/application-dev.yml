@@ -1,0 +1,6 @@
+
+spring:
+  datasource:
+    driver-class-name: net.ucanaccess.jdbc.UcanaccessDriver
+    url: "jdbc:ucanaccess://E:/private/project/mqtt/access/data.mdb;openExclusive=false;ignoreCase;charset=UTF-8"
+    password: "admin"

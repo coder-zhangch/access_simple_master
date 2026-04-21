@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.DataResultMapper">
+
+    <resultMap id="dataMap" type="com.example.entity.DataResult">
+    </resultMap>
+
+    <select id="getFinalByWareName" resultMap="dataMap">
+        SELECT * FROM DataResult where TempData not like 'FFF%' AND WareHouseName = #{name}
+        ORDER BY DateTime DESC LIMIT 1
+    </select>
+
+    <select id="getFinalByWareNameList" resultMap="dataMap">
+        SELECT * FROM DataResult WHERE DateTime in (
+            SELECT MAX(DateTime) AS DateTime FROM DataResult
+            WHERE MaxNum != -300 AND WareHouseName IN
+                <foreach collection="nameList" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            GROUP BY WareHouseName
+        ) AND MaxNum != -300 AND WareHouseName IN
+        <foreach collection="nameList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

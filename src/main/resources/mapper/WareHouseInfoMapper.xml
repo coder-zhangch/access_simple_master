@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.WareHouseInfoMapper">
+
+    <resultMap id="wareMap" type="com.example.entity.WareHouseInfo">
+    </resultMap>
+
+    <select id="getByName" resultMap="wareMap">
+        SELECT * FROM WareHouseInfo where WareHouseName = #{name} LIMIT 1
+    </select>
+
+    <select id="getByNameList" resultMap="wareMap">
+        SELECT * FROM WareHouseInfo where WareHouseName in
+        <foreach collection="nameList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

@@ -1,0 +1,6 @@
+
+spring:
+  datasource:
+    driver-class-name: net.ucanaccess.jdbc.UcanaccessDriver
+    url: "jdbc:ucanaccess://D:/测温/弘恩测温软件/Data.mdb;openExclusive=false;ignoreCase;charset=UTF-8"
+    password: "admin"
