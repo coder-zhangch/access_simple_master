@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.LatestDataMapper">
+
+    <resultMap id="latestMap" type="com.example.entity.LatestData">
+        <id property="id" column="id"/>
+        <result property="pushTime" column="推送时间"/>
+    </resultMap>
+
+    <select id="findOne" resultMap="latestMap">
+        SELECT * FROM LatestData order by 推送时间 desc limit 1
+    </select>
+
+    <delete id="delete">
+        delete from LatestData
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.LatestData">
+        insert into LatestData(id, 推送时间) values(#{latestData.id}, #{latestData.pushTime})
+    </insert>
+</mapper>

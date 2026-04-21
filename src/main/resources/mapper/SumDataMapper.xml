@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.SumDataMapper">
+
+    <resultMap id="sumMap" type="com.example.entity.SumData">
+        <id property="id" column="ID"/>
+        <result property="orderNo" column="订单编号"/>
+        <result property="dwmc" column="单位名称"/>
+        <result property="cydw" column="承运单位"/>
+        <result property="ysgj" column="运输工具"/>
+        <result property="materialName" column="货物名称"/>
+        <result property="goodsLevel" column="货物等级"/>
+        <result property="ccNo" column="仓储"/>
+        <result property="shFlag" column="收货"/>
+        <result property="depart" column="出发地点"/>
+        <result property="arrival" column="到达地点"/>
+        <result property="targetWeight" column="目标重量"/>
+        <result property="weightDate" column="日期"/>
+        <result property="weightTime" column="时间"/>
+        <result property="banCi" column="班次"/>
+        <result property="ziDong" column="自动"/>
+        <result property="douShu" column="斗数"/>
+        <result property="gross" column="毛重"/>
+        <result property="tare" column="皮重"/>
+        <result property="suttle" column="净重"/>
+        <result property="totalWeight" column="总重量"/>
+        <result property="lastWeigh" column="最后一秤"/>
+        <result property="scaleNo" column="秤号"/>
+        <result property="difference" column="超差"/>
+        <result property="operator" column="操作者"/>
+        <result property="loader" column="装货员"/>
+        <result property="danPrice" column="单价"/>
+        <result property="amount" column="金额"/>
+        <result property="dataFrom" column="数据来源"/>
+        <result property="synchroFlag" column="同步"/>
+        <result property="rems0" column="REMS0"/>
+        <result property="rems1" column="REMS1"/>
+        <result property="rems2" column="REMS2"/>
+        <result property="rems3" column="REMS3"/>
+        <result property="rems4" column="REMS4"/>
+        <result property="rems5" column="REMS5"/>
+        <result property="rems6" column="REMS6"/>
+        <result property="rems7" column="REMS7"/>
+        <result property="rems8" column="REMS8"/>
+        <result property="rems9" column="REMS9"/>
+        <result property="remn0" column="REMN0"/>
+        <result property="remn1" column="REMN1"/>
+        <result property="remn2" column="REMN2"/>
+        <result property="remn3" column="REMN3"/>
+        <result property="remn4" column="REMN4"/>
+        <result property="remf0" column="REMF0"/>
+        <result property="remf1" column="REMF1"/>
+        <result property="remf2" column="REMF2"/>
+        <result property="remf3" column="REMF3"/>
+        <result property="remf4" column="REMF4"/>
+        <result property="remf5" column="REMF5"/>
+        <result property="remf6" column="REMF6"/>
+        <result property="remf7" column="REMF7"/>
+        <result property="remf8" column="REMF8"/>
+        <result property="remf9" column="REMF9"/>
+    </resultMap>
+
+    <select id="getById" resultMap="sumMap">
+        SELECT * FROM SumData where ID = #{id}
+    </select>
+
+    <select id="getLastData" resultMap="sumMap">
+        SELECT * FROM SumData where 秤号 = #{scaleNo} order by ID desc limit 1
+    </select>
+
+    <select id="getLastByLastId" resultMap="sumMap">
+        SELECT * FROM SumData where 秤号 = #{scaleNo} and 单位名称 like '%中粮贸易%' and ID &lt; #{lastId} order by ID desc limit 1
+    </select>
+
+    <select id="queryByLastId" resultMap="sumMap">
+        SELECT * FROM SumData where 秤号 = #{scaleNo} and 单位名称 like '%中粮贸易%' and ID > #{lastId}
+    </select>
+
+    <select id="queryByIdList" resultMap="sumMap">
+        SELECT * FROM SumData where ID in
+            <foreach collection="idList" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+    </select>
+
+    <select id="queryLastByScaleNo" resultMap="sumMap">
+        SELECT * FROM SumData where 秤号 = #{scaleNo} order by ID desc limit 1
+    </select>
+</mapper>

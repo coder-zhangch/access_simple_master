@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.ScaleDataMapper">
+
+    <resultMap id="scaleMap" type="com.example.entity.ScaleData">
+        <id property="id" column="ID"/>
+        <result property="date" column="日期"/>
+        <result property="time" column="时间"/>
+        <result property="team" column="班次"/>
+        <result property="auto" column="自动"/>
+        <result property="number" column="斗数"/>
+        <result property="roughWeight" column="毛重"/>
+        <result property="tareWeight" column="皮重"/>
+        <result property="suttleWeight" column="净重"/>
+        <result property="totalWeight" column="总重量"/>
+        <result property="lastBalance" column="最后一秤"/>
+        <result property="balance" column="秤号"/>
+        <result property="difference" column="超差"/>
+        <result property="handlers" column="操作者"/>
+        <result property="cargoClerk" column="装货员"/>
+        <result property="datasource" column="数据来源"/>
+        <result property="sync" column="同步"/>
+        <result property="rems0" column="REMS0"/>
+        <result property="rems1" column="REMS1"/>
+        <result property="remn0" column="REMN0"/>
+        <result property="remn1" column="REMN1"/>
+        <result property="remn2" column="REMN2"/>
+        <result property="remn3" column="REMN3"/>
+    </resultMap>
+
+    <select id="getById" resultMap="scaleMap">
+        SELECT * FROM ScaleData where ID = #{id}
+    </select>
+</mapper>

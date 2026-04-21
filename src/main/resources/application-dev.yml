@@ -1,0 +1,13 @@
+
+spring:
+  datasource:
+    driver-class-name: net.ucanaccess.jdbc.UcanaccessDriver
+    url: "jdbc:ucanaccess://E:/private/access/data.mdb;openExclusive=false;ignoreCase;charset=UTF-8"
+#    url: "jdbc:ucanaccess://E:/private/access/test.mdb;openExclusive=false;ignoreCase;charset=UTF-8"
+#    password: "123456"
+  redis:
+    database: 0
+    timeout: 60s
+    host: 127.0.0.1
+    port: 6379
+    password: Pwd123456
