@@ -28,6 +28,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ScaleRedisTask {
 
+    private final static String LAST_PUSH_DATE = "LAST_PUSH_DATE:";
+
     //缓存 最后推送的数据id 的key
     private final static String ScaleLastPushId = "ScaleLastPushId:";
     //缓存 未推送成功数据id列表 的key前缀
@@ -43,6 +45,8 @@ public class ScaleRedisTask {
     private final static String failDataPush = "失败数据重推: ";
     private final static String dataRepush = "数据重新推送: ";
     private final static String comma = ",";
+
+    private final static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     @Autowired
     private WeighingDataService weighingDataService;
@@ -240,25 +244,46 @@ public class ScaleRedisTask {
     }
 
     public void pushLqData(){
+        LqData lq1_2 = lqDataService.getLastBy("1-2");
+        LqData lq2_2 = lqDataService.getLastBy("2-2");
+        LqData lq3_2 = lqDataService.getLastBy("3-2");
         List<LqData> pushList = new ArrayList<>();
-        pushList.add(lqDataService.getLastBy("1-2"));
-        pushList.add(lqDataService.getLastBy("2-2"));
-        pushList.add(lqDataService.getLastBy("3-2"));
+        pushList.add(lq1_2);
+        pushList.add(lq2_2);
+        pushList.add(lq3_2);
         if(pushList.isEmpty()){
             return;
         }
+
+        String currentDate = dateFormat.format(new Date());
         for (LqData lqData : pushList) {
             if (lqData == null) {
                 continue;
             }
+            //不推送的情况：数据的日期和今天不是同一天则不推送
+            String date = dateFormat.format(lqData.getJcsj());
+            if(!currentDate.equals(date)){
+                log.info("id--{}--{}仓--因非今天采集数据取消推送，今天日期为：{}，数据日期为：{}！", lqData.getId(), lqData.getCfmc(), currentDate, date);
+                continue;
+            }
+            //redis中已存在今天的日期则不推送
+            String key = LAST_PUSH_DATE + lqData.getCfmc();
+            if(redisTemplate.hasKey(key)){
+                String cacheDate = redisTemplate.boundValueOps(key).get().toString();
+                if(currentDate.equals(cacheDate)){
+                    log.info("id=={}=={}仓==因redis中已缓存当天日期取消推送，数据日期为：{}，缓存日期为：{}！", lqData.getId(), lqData.getCfmc(), date, cacheDate);
+                    continue;
+                }
+            }
             try {
                 lqDataService.dataPush(lqData);
-                log.info("push success: {}", lqData.getId());
+                log.info("3推送成功: {}", lqData.getId());
             } catch (Exception e) {
                 log.error(e.getMessage());
 //                e.printStackTrace();
-                log.info("push fail: {}", lqData.getId());
+                log.info("4推送失败: {}", lqData.getId());
             }
+            redisTemplate.boundValueOps(key).set(currentDate);
         }
     }
 }

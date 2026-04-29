@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.entity.LqData;
 import com.example.mapper.LqDataMapper;
 import com.example.service.LqDataService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class LqDataServiceImpl implements LqDataService {
 
@@ -114,7 +116,8 @@ public class LqDataServiceImpl implements LqDataService {
 
         if(null!=lqLogin){
             String valueJson = JSONObject.toJSONString(temperatureMap);
-            System.out.println("发送大数据内容:"+valueJson);
+//            System.out.println("发送大数据内容:"+valueJson);
+            log.info("1发送大数据内容:{}", valueJson);
             JSONObject loginJson= JSON.parseObject(lqLogin);
             String temperatureAuthorizationStr=loginJson.getString("token_type")+" "+loginJson.getString("access_token");
             String temperatureUrl="http://192.168.6.6:8280/temperature/1.0.0";//目标源发送数据
@@ -127,7 +130,8 @@ public class LqDataServiceImpl implements LqDataService {
                             .timeout(20000)
                             .execute()
                             .body();
-            System.out.println("发送大数据结果:"+temperatureRe);
+//            System.out.println("发送大数据结果:"+temperatureRe);
+            log.info("2发送大数据结果:{}", temperatureRe);
         }
     }
 

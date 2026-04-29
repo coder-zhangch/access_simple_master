@@ -40,6 +40,7 @@ public class LqDataController {
 
     @GetMapping("/push")
     public void lqDataPush(){
+        log.info("0手动触发数据推送！");
         List<LqData> pushList = new ArrayList<>();
         pushList.add(lqDataService.getLastBy("1-2"));
         pushList.add(lqDataService.getLastBy("2-2"));
@@ -64,6 +65,7 @@ public class LqDataController {
 
     @GetMapping("/pushByDate/{date}")
     public void lqDataPushByDate(@PathVariable("date")String date){
+        log.info("0手动触发日期数据推送{}！", date);
         List<LqData> pushList = new ArrayList<>();
         //日期的第二天
         DateTime dateTime = DateUtil.parseDate(date);
