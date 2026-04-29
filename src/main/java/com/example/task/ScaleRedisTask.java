@@ -89,9 +89,9 @@ public class ScaleRedisTask {
         repushData();
     }
 
-    //每天12点执行一次
+    //每小时执行一次
     @Async
-    @Scheduled(cron = "0 0 12 * * ? ")
+    @Scheduled(cron = "0 0 */1 * * ? ")
     public void pushLqDataJob(){
         pushLqData();
     }
