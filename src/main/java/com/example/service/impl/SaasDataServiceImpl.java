@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
@@ -351,11 +352,27 @@ public class SaasDataServiceImpl implements SaasDataService {
                     temperatureMap.put("cfws",avgOutHumidity == null ? null : avgOutHumidity.toPlainString());*/
                     temperatureMap.put("cfws",targetCfws == null ? null : targetCfws.toPlainString());
                     //内部温度，保留整数
-                    BigDecimal avgInTemp = data.getBigDecimal("avgInTemp");
-                    if(avgInTemp != null){
-                        avgInTemp = avgInTemp.setScale(0, BigDecimal.ROUND_HALF_UP);
+//                    BigDecimal avgInTemp = data.getBigDecimal("avgInTemp");
+//                    if(avgInTemp != null){
+//                        avgInTemp = avgInTemp.setScale(0, BigDecimal.ROUND_HALF_UP);
+//                    }
+//                    temperatureMap.put("cfnw", avgInTemp == null ? null : avgInTemp.toPlainString());
+                    if("L2403仓".equals(key)){
+                        JSONArray readTimeTemp = data.getJSONArray("readTimeTemp");
+                        if(CollUtil.isNotEmpty(readTimeTemp)){
+                            JSONObject val = readTimeTemp.getJSONObject(0);
+                            String valStr = val.getString("val");
+                            String[] split = valStr.split(",");
+                            temperatureMap.put("cfnw", split[0]);
+                        }
+
+                    }else {
+                        BigDecimal avgInTemp = data.getBigDecimal("avgInTemp");
+                        if(avgInTemp != null){
+                            avgInTemp = avgInTemp.setScale(0, BigDecimal.ROUND_HALF_UP);
+                        }
+                        temperatureMap.put("cfnw", avgInTemp == null ? null : avgInTemp.toPlainString());
                     }
-                    temperatureMap.put("cfnw", avgInTemp == null ? null : avgInTemp.toPlainString());
                     //内部湿度，保留整数
                     BigDecimal avgInHumidity = data.getBigDecimal("avgInHumidity");
                     if(avgInHumidity != null){
