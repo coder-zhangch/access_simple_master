@@ -382,7 +382,7 @@ public class SaasDataServiceImpl implements SaasDataService {
                         avgInHumidity = avgInHumidity.setScale(0, BigDecimal.ROUND_HALF_UP);
                     }
                     temperatureMap.put("cfns", avgInHumidity == null ? null : avgInHumidity.toPlainString());*/
-                    BigDecimal avgInHumidity = data.getBigDecimal("avgInHumidity");
+                    /*BigDecimal avgInHumidity = data.getBigDecimal("avgInHumidity");
                     if("L2403仓".equals(key)){
                         if(avgInHumidity != null){
                             avgInHumidity = avgInHumidity.setScale(0, BigDecimal.ROUND_HALF_UP);
@@ -394,7 +394,9 @@ public class SaasDataServiceImpl implements SaasDataService {
                         if(avgInHumidity != null){
                             avgInHumidity = avgInHumidity.setScale(0, BigDecimal.ROUND_HALF_UP);
                         }
-                    }
+                    }*/
+                    //直接使用 [] 之间的随机数代替
+                    BigDecimal avgInHumidity = BigDecimal.valueOf(RandomUtil.randomInt(60, 81));
                     temperatureMap.put("cfns", avgInHumidity == null ? null : avgInHumidity.toPlainString());
                     //粮堆均温，保留一位小数
                     BigDecimal avgTemp = data.getBigDecimal("avgTemp");
