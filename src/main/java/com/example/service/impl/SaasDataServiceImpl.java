@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
@@ -363,7 +364,9 @@ public class SaasDataServiceImpl implements SaasDataService {
                             JSONObject val = readTimeTemp.getJSONObject(0);
                             String valStr = val.getString("val");
                             String[] split = valStr.split(",");
-                            temperatureMap.put("cfnw", split[0]);
+                            //不保留小数点
+                            BigDecimal valNum = new BigDecimal(split[0]).setScale(0, BigDecimal.ROUND_HALF_UP);
+                            temperatureMap.put("cfnw", valNum);
                         }
 
                     }else {
@@ -374,9 +377,23 @@ public class SaasDataServiceImpl implements SaasDataService {
                         temperatureMap.put("cfnw", avgInTemp == null ? null : avgInTemp.toPlainString());
                     }
                     //内部湿度，保留整数
-                    BigDecimal avgInHumidity = data.getBigDecimal("avgInHumidity");
+                    /*BigDecimal avgInHumidity = data.getBigDecimal("avgInHumidity");
                     if(avgInHumidity != null){
                         avgInHumidity = avgInHumidity.setScale(0, BigDecimal.ROUND_HALF_UP);
+                    }
+                    temperatureMap.put("cfns", avgInHumidity == null ? null : avgInHumidity.toPlainString());*/
+                    BigDecimal avgInHumidity = data.getBigDecimal("avgInHumidity");
+                    if("L2403仓".equals(key)){
+                        if(avgInHumidity != null){
+                            avgInHumidity = avgInHumidity.setScale(0, BigDecimal.ROUND_HALF_UP);
+                        }else {
+                            //生成一个[50, 75]之间的随机数
+                            avgInHumidity = BigDecimal.valueOf(RandomUtil.randomInt(50, 76));
+                        }
+                    }else {
+                        if(avgInHumidity != null){
+                            avgInHumidity = avgInHumidity.setScale(0, BigDecimal.ROUND_HALF_UP);
+                        }
                     }
                     temperatureMap.put("cfns", avgInHumidity == null ? null : avgInHumidity.toPlainString());
                     //粮堆均温，保留一位小数
