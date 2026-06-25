@@ -14,4 +14,8 @@
         insert into getrecord( getTime, getData )
         values( #{record.getTime}, #{record.getData} )
     </insert>
+
+    <select id="getHistory" resultMap="getMap">
+        select * from getrecord where getTime like #{date} limit 1
+    </select>
 </mapper>

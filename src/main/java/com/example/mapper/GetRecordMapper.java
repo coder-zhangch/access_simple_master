@@ -8,4 +8,7 @@ import org.apache.ibatis.annotations.Param;
 public interface GetRecordMapper {
 
     int insert(@Param("record") GetRecord record);
+
+    //通过库位和日期查询第一条历史记录并推送
+    GetRecord getHistory(@Param("date") String date);
 }

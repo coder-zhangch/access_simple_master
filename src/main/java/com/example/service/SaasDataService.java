@@ -11,4 +11,6 @@ public interface SaasDataService {
     int saveSendRecord();
 
     void getAndSend();
+
+    void handleSendRecord(String resultData);
 }
