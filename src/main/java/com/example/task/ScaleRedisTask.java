@@ -277,13 +277,13 @@ public class ScaleRedisTask {
             }
             try {
                 lqDataService.dataPush(lqData);
+                redisTemplate.boundValueOps(key).set(currentDate);
                 log.info("3推送成功: {}", lqData.getId());
             } catch (Exception e) {
-                log.error(e.getMessage());
-//                e.printStackTrace();
+//                log.error(e.getMessage());
+                e.printStackTrace();
                 log.info("4推送失败: {}", lqData.getId());
             }
-            redisTemplate.boundValueOps(key).set(currentDate);
         }
     }
 }
