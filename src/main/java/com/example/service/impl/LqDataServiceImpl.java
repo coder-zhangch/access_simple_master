@@ -100,7 +100,7 @@ public class LqDataServiceImpl implements LqDataService {
 
         //	System.out.println("wsdjcdh:"+valId+"=="+tempBuffer.toString());
 
-        String lqLoginUrl="https://192.168.6.6:9443/oauth2/token";//目标源登陆地址
+        String lqLoginUrl="https://192.168.6.17:9443/oauth2/token";//目标源登陆地址
         String lqAuthorizationStr="Basic RmFxVTVNMWF4SW5Md1R5cUZHR182T2ZfU0pVYTpHN3hwTlp2OHozaHFZeHJFYUVzVlZlTVd6WTBh";
         HashMap<String, Object> lqMapLogin = MapUtil.newHashMap(3);
         lqMapLogin.put("grant_type","password");
@@ -120,7 +120,7 @@ public class LqDataServiceImpl implements LqDataService {
             log.info("1发送大数据内容:{}", valueJson);
             JSONObject loginJson= JSON.parseObject(lqLogin);
             String temperatureAuthorizationStr=loginJson.getString("token_type")+" "+loginJson.getString("access_token");
-            String temperatureUrl="http://192.168.6.6:8280/temperature/1.0.0";//目标源发送数据
+            String temperatureUrl="http://192.168.6.17:8280/temperature/1.0.0";//目标源发送数据
             String temperatureRe=
                     HttpRequest.post(temperatureUrl)
                             .header("Authorization", temperatureAuthorizationStr)
